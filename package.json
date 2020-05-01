@@ -1,0 +1,29 @@
+{
+  "name": "modularni-urad-auth-api",
+  "version": "1.0.0",
+  "description": "Auth API for modularni-urad",
+  "main": "server.js",
+  "scripts": {
+    "start": "node -r esm -r dotenv/config server.js",
+    "startdbg": "node -r esm -r dotenv/config --inspect-brk server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vaclav Klecanda <vencax77@gmail.com> (http://vxk.cz)",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect-redis": "^4.0.3",
+    "dotenv": "^6.0.0",
+    "esm": "^3.2.25",
+    "express": "^4.16.2",
+    "express-session": "^1.17.0",
+    "modularni-urad-utils": "github:modularni-urad/utils",
+    "morgan": "^1.9.0",
+    "node-nia-connector": "^1.0.1",
+    "redis": "^2.8.0",
+    "underscore": "^1.9.1"
+  },
+  "engines": {
+    "node": ">=12"
+  }
+}
