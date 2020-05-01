@@ -24,7 +24,7 @@ app.post('/login', bodyParser.json(), (req, res, next) => {
     email: req.body.uname + '@test.test'
   }
   req.session.user = user
-  res.send('ok')
+  res.json(user)
 })
 
 export default app
