@@ -17,7 +17,7 @@
     "esm": "^3.2.25",
     "express": "^4.16.2",
     "express-session": "^1.17.0",
-    "modularni-urad-utils": "github:modularni-urad/utils",
+    "modularni-urad-utils": "https://github.com/modularni-urad/utils",
     "morgan": "^1.9.0",
     "node-nia-connector": "^1.0.1",
     "redis": "^2.8.0",
