@@ -4,6 +4,7 @@ import session from 'express-session'
 import redis from 'redis'
 import initErrorHandlers from 'modularni-urad-utils/error_handlers'
 import simpleLogin from './simple'
+import jwtLogin from './jwt'
 // import InitNIA from './nia'
 
 async function init (host, port) {
@@ -27,7 +28,8 @@ async function init (host, port) {
   // const niaApp = express()
   // InitNIA(niaApp)
   // app.use('/nia', niaApp)
-  app.use(simpleLogin)
+  app.use('/simple', simpleLogin)
+  app.use('/jwt', jwtLogin)
 
   function logout (req, res, next) {
     req.session.destroy(err => {
