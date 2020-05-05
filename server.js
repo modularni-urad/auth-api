@@ -28,7 +28,7 @@ async function init (host, port) {
   // const niaApp = express()
   // InitNIA(niaApp)
   // app.use('/nia', niaApp)
-  app.use('/simple', simpleLogin)
+  app.use(simpleLogin)
   app.use('/jwt', jwtLogin)
 
   function logout (req, res, next) {

@@ -17,7 +17,7 @@ app.post('/login', (req, res, next) => {
     if (decoded.user && decoded.user.local) {
       req.session.user = decoded.user.local
       req.session.user.id = decoded.user._id
-      req.session.user.groups = ['ooth']
+      req.session.user.groups = ['citizens']
     } else {
       req.session.user = decoded
     }
