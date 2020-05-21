@@ -13,6 +13,25 @@ function hashCode (s) {
   return h < 0 ? h * -10 : h
 }
 
+function getUID (uname) {
+  let id = hashCode(uname)
+  while (id > 2147483646) {
+    id = id / 8
+  }
+  return Math.floor(id)
+}
+
+export function simpleUserInfo (uid) {
+  const u = _.find(users, (i) => {
+    return uid === getUID(i[0])
+  })
+  return u ? {
+    id: getUID(u[0]),
+    username: u[0],
+    email: u[0] + '@mutabor.cz'
+  } : null
+}
+
 app.post('/login', bodyParser.json(), (req, res, next) => {
   if (!req.body.passwd || !req.body.uname) {
     return next('wrong credentials')
@@ -21,12 +40,8 @@ app.post('/login', bodyParser.json(), (req, res, next) => {
   if (!u || req.body.passwd !== u[1]) {
     return next('wrong credentials')
   }
-  let id = hashCode(req.body.uname)
-  while (id > 2147483646) {
-    id = id / 8
-  }
   const user = {
-    id: Math.floor(id),
+    id: getUID(req.body.uname),
     username: req.body.uname,
     email: req.body.uname + '@mutabor.cz',
     groups: ['employees'].concat(u.length > 2 ? u[2] : [])
