@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser'
 import express from 'express'
 import _ from 'underscore'
+import str from 'underscore.string'
 
 const users = JSON.parse(process.env.USERS)
 
@@ -30,6 +31,15 @@ export function simpleUserInfo (uid) {
     username: u[0],
     email: u[0] + '@mutabor.cz'
   } : null
+}
+
+export function findProfiles (query) {
+  return _.reduce(users, (acc, i) => {
+    if (str.include(i[0], query)) {
+      acc.push({ id: getUID(i[0]), name: i[0] })
+    }
+    return acc
+  }, [])
 }
 
 app.post('/login', bodyParser.json(), (req, res, next) => {

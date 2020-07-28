@@ -6,7 +6,7 @@ import redis from 'redis'
 import axios from 'axios'
 import _ from 'underscore'
 import initErrorHandlers from 'modularni-urad-utils/error_handlers'
-import simpleLogin, { simpleUserInfo } from './simple'
+import simpleLogin, { simpleUserInfo, findProfiles } from './simple'
 import jwtLogin from './jwt'
 // import InitNIA from './nia'
 const OBSOLETE_AUTH_EP = process.env.OBSOLETE_AUTH_EP
@@ -44,7 +44,15 @@ async function init (host, port) {
   }
 
   app.get('/uinfo/:uid', (req, res, next) => {
-    getProfile(req.params.uid).then(u => res.json(u)).catch(next)
+    const uids = req.params.uid.split(',')
+    Promise.all(uids.map(i => getProfile(i))).then(results => {
+      res.json(results)
+    }).catch(next)
+  })
+
+  app.get('/profiles', (req, res, next) => {
+    // vrati pary (uid: jmeno) na zaklade queryparam q
+    res.json(findProfiles(req.query.q))
   })
 
   app.post('/inform', bodyParser.json(), async (req, res, next) => {
