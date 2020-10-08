@@ -4,9 +4,8 @@ import session from 'express-session'
 import bodyParser from 'body-parser'
 import redis from 'redis'
 import axios from 'axios'
-import _ from 'underscore'
 import initErrorHandlers from 'modularni-urad-utils/error_handlers'
-import simpleLogin, { simpleUserInfo, findProfiles } from './simple'
+import ldapDB from './ldap'
 import jwtLogin from './jwt'
 // import InitNIA from './nia'
 const OBSOLETE_AUTH_EP = process.env.OBSOLETE_AUTH_EP
@@ -33,11 +32,22 @@ async function init (host, port) {
   // const niaApp = express()
   // InitNIA(niaApp)
   // app.use('/nia', niaApp)
-  app.use(simpleLogin)
+  app.post('/login', bodyParser.json(), async (req, res, next) => {
+    if (!req.body.passwd || !req.body.uname) {
+      return next('wrong credentials')
+    }
+    try {
+      const user = await ldapDB.login(req.body)
+      req.session.user = user // save to session (thus cookie set ...)
+      res.json(user)
+    } catch (e) {
+      next(e)
+    }
+  })
   app.use('/jwt', jwtLogin)
 
   async function getProfile (uid) {
-    const u = simpleUserInfo(parseInt(uid))
+    const u = await ldapDB.userInfo(parseInt(uid))
     if (u) return u
     const res = await axios(`${OBSOLETE_AUTH_EP}/local/userinfo?userId=${uid}`)
     return res.status === 200 && res.data ? res.data : null
@@ -52,7 +62,7 @@ async function init (host, port) {
 
   app.get('/profiles', (req, res, next) => {
     // vrati pary (uid: jmeno) na zaklade queryparam q
-    res.json(findProfiles(req.query.q))
+    res.json(ldapDB.findProfiles(req.query.q))
   })
 
   app.post('/inform', bodyParser.json(), async (req, res, next) => {

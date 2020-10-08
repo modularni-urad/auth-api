@@ -4,8 +4,8 @@
   "description": "Auth API for modularni-urad",
   "main": "server.js",
   "scripts": {
-    "start": "node -r esm -r dotenv/config server.js",
-    "startdbg": "node -r esm -r dotenv/config --inspect-brk server.js",
+    "start": "node -r esm -r dotenv/config --tls-min-v1.0 server.js",
+    "startdbg": "node -r esm -r dotenv/config --tls-min-v1.0 --inspect-brk server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vaclav Klecanda <vencax77@gmail.com> (http://vxk.cz)",
@@ -19,6 +19,8 @@
     "express": "^4.16.2",
     "express-session": "^1.17.0",
     "jsonwebtoken": "^8.5.1",
+    "ldap-pool": "0.0.1016",
+    "ldapjs": "^2.2.0",
     "modularni-urad-utils": "https://github.com/modularni-urad/utils",
     "morgan": "^1.9.0",
     "node-nia-connector": "^1.0.1",
