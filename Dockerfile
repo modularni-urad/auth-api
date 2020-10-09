@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN apk add --update git \
+RUN apk add --update git python make \
   && npm i --only=production
 
 # Bundle app source
