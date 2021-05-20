@@ -4,27 +4,35 @@
   "description": "Auth API for modularni-urad",
   "main": "server.js",
   "scripts": {
-    "start": "node -r esm -r dotenv/config server.js",
-    "startdbg": "node -r esm -r dotenv/config --inspect-brk server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node -r esm server.js",
+    "startdbg": "node -r esm --inspect-brk server.js",
+    "test": "mocha -r esm -r ./test/utils/env --exit './test/main.js'",
+    "testdbg": "mocha -r esm -r ./test/utils/env --inspect-brk './test/main.js'"
   },
   "author": "Vaclav Klecanda <vencax77@gmail.com> (http://vxk.cz)",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "body-parser": "^1.18.2",
     "connect-redis": "^4.0.3",
-    "dotenv": "^6.0.0",
     "esm": "^3.2.25",
     "express": "^4.16.2",
     "express-session": "^1.17.0",
-    "jsonwebtoken": "^8.5.1",
-    "modularni-urad-utils": "https://github.com/modularni-urad/utils",
+    "memorystore": "^1.6.6",
+    "modularni-urad-utils": "1.1.5",
     "morgan": "^1.9.0",
-    "node-nia-connector": "^1.0.1",
     "redis": "^2.8.0",
-    "underscore": "^1.9.1",
-    "underscore.string": "^3.3.5"
+    "underscore": "^1.13.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.2.0",
+    "deepcopy": "^2.0.0",
+    "expect": "^1.20.2",
+    "jsdom": "^9.8.0",
+    "knex-hooks": "0.0.9",
+    "mocha": "^8.2.0",
+    "sqlite3": "^4.2.0"
   },
   "engines": {
     "node": ">=12"
