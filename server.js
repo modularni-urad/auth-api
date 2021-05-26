@@ -14,7 +14,8 @@ export function init (host, port) {
   app.use(session)
 
   app.post('/login/:orgid?', JSONBodyParser, (req, res, next) => {
-    routes.login(req.body, req.params.orgid).then(user => {
+    const domain = process.env.DOMAIN || req.hostname
+    routes.login(req.body, req.params.orgid, domain).then(user => {
       req.session.user = user // save to session (thus cookie set ...)
       res.json(user)
     }).catch(next)

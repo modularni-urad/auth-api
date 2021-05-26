@@ -11,7 +11,8 @@ const port = process.env.PORT || 3333
 const g = {
   baseurl: `http://localhost:${port}`,
   UID: 110,
-  usergroups: []
+  usergroups: [],
+  sharedBasket: []
 }
 const mocks = {
   auth: {
@@ -32,6 +33,7 @@ describe('app', () => {
       setTimeout(done, 1500)
     })
     g.usermock = userServiceMockInitializer(4444)
+    g.usermockShared = userServiceMockInitializer(4446, g.sharedBasket)
     g.groupmock = groupServiceMockInitializer(4445)
   })
   after(done => {

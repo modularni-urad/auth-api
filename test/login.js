@@ -13,9 +13,16 @@ module.exports = (g) => {
 
   return describe('login', () => {
 
-    it('shall create a new item p1', async () => {
+    it('shall login p1', async () => {
       const res = await r.post('/login/mutabor').send(u1)
       res.status.should.equal(200)
+      console.log(res.body)
+    })
+
+    it('shall create a new item p1', async () => {
+      const res = await r.post('/login/mutaborext').send(u1)
+      res.status.should.equal(200)
+      console.log(g.sharedBasket);
       console.log(res.body)
     })
 
