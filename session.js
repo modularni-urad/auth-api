@@ -14,7 +14,7 @@ function createMemoryStore () {
   })
 }
 
-export default session({
+const opts = {
   store: createMemoryStore(),
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -22,4 +22,8 @@ export default session({
   cookie: {
     httpOnly: process.env.NODE_ENV === 'production'
   }
-})
+}
+process.env.SESSION_COOKIE_NAME &&
+  Object.assign(opts, { name: process.env.SESSION_COOKIE_NAME })
+
+export default session(opts)

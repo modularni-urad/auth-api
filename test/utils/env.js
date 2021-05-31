@@ -8,3 +8,4 @@ process.env.USER_SVC_URLS = '{"mutabor":"http://localhost:4444","mutaborext":"ts
 process.env.GROUP_SVC_URL = 'http://localhost:4445'
 process.env.SESSION_SECRET = 'secret'
 process.env.SHARED_USER_SVC = 'http://localhost:4446'
+process.env.SESSION_COOKIE_NAME = 'Bearer'
