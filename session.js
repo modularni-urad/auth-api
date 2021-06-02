@@ -39,3 +39,7 @@ export async function setSessionCookie(user, res) {
     maxAge: 12 * 60 * 60 * 1000 // 12h
   })
 }
+
+export function destroySessionCookie (res) {
+  res.clearCookie(COOKIE_NAME)
+}

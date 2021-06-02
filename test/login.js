@@ -27,6 +27,12 @@ module.exports = (g) => {
       console.log(res.body)
     })
 
+    it('shall logout', async () => {
+      const res = await r.post('/logout')
+      res.status.should.equal(200)
+      chai.expect(res).not.to.have.cookie(process.env.SESSION_COOKIE_NAME)
+    })
+
     // it('shall get the pok1 with pagination', async () => {
     //   const res = await r.get('/?currentPage=1&perPage=10&sort=id:asc')
     //   res.status.should.equal(200)

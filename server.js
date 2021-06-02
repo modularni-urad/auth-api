@@ -4,7 +4,7 @@ import bodyParser from 'body-parser'
 import _ from 'underscore'
 import initErrorHandlers from 'modularni-urad-utils/error_handlers'
 import routes from './routes.js'
-import { setSessionCookie } from './session.js'
+import { setSessionCookie, destroySessionCookie } from './session.js'
 
 const JSONBodyParser = bodyParser.json()
 
@@ -24,9 +24,8 @@ export function init (host, port) {
   })
 
   function logout (req, res, next) {
-    req.session.destroy(err => {
-      return err ? next(err) : res.send('ok')
-    })
+    destroySessionCookie(res)
+    res.send('ok')
   }
   app.get('/logout', logout)
   app.post('/logout', logout)
