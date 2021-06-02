@@ -4,20 +4,18 @@ import bodyParser from 'body-parser'
 import _ from 'underscore'
 import initErrorHandlers from 'modularni-urad-utils/error_handlers'
 import routes from './routes.js'
-import session from './session.js'
+import { setSessionCookie } from './session.js'
 
 const JSONBodyParser = bodyParser.json()
 
 export function init (host, port) {
   const app = express()
   app.use(morgan('dev'))
-  app.use(session)
 
   app.post('/login/:orgid?', JSONBodyParser, (req, res, next) => {
     const domain = process.env.DOMAIN || req.hostname
     routes.login(req.body, req.params.orgid, domain).then(user => {
-      req.session.user = user // save to session (thus cookie set ...)
-      res.json(user)
+      return setSessionCookie(user, res).then(() => res.json(user))
     }).catch(next)
   })
 

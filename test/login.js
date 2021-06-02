@@ -22,7 +22,7 @@ module.exports = (g) => {
     it('shall create a new item p1', async () => {
       const res = await r.post('/login/mutaborext').send(u1)
       res.status.should.equal(200)
-      chai.expect(res).to.have.cookie(process.env.SESSION_COOKIE_NAME)
+      chai.expect(res).to.have.cookie(process.env.SESSION_COOKIE_NAME, 'beeep')
       console.log(g.sharedBasket)
       console.log(res.body)
     })

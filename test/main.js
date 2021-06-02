@@ -3,6 +3,7 @@
 import chai from 'chai'
 import userServiceMockInitializer from './utils/mockUserService.js'
 import groupServiceMockInitializer from './utils/groupUserService.js'
+import sessionServiceMockInitializer from './utils/sessionService.js'
 import { init } from '../server'
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
@@ -35,6 +36,7 @@ describe('app', () => {
     g.usermock = userServiceMockInitializer(4444)
     g.usermockShared = userServiceMockInitializer(4446, g.sharedBasket)
     g.groupmock = groupServiceMockInitializer(4445)
+    g.sessionServiceMock = sessionServiceMockInitializer(5000)
   })
   after(done => {
     g.server.close(err => {
