@@ -11,7 +11,8 @@ chai.use(chaiHttp)
 const port = process.env.PORT || 3333
 const g = {
   baseurl: `http://localhost:${port}`,
-  UID: 110,
+  mockuser: { id: 117, login: 'admin' },
+  error: false,
   usergroups: [],
   sharedBasket: []
 }
@@ -33,8 +34,8 @@ describe('app', () => {
       if (err) return done(err)
       setTimeout(done, 1500)
     })
-    g.usermock = userServiceMockInitializer(4444)
-    g.usermockShared = userServiceMockInitializer(4446, g.sharedBasket)
+    g.usermock = userServiceMockInitializer(4444, g)
+    g.usermockShared = userServiceMockInitializer(4446, g)
     g.groupmock = groupServiceMockInitializer(4445)
     g.sessionServiceMock = sessionServiceMockInitializer(5000)
   })

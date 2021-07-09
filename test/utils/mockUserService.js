@@ -1,15 +1,13 @@
 import express from 'express'
-import bodyParser from 'body-parser'
 
-export default function (port, basket = []) {
+export default function (port, g) {
   const app = express()
 
-  app.post('/login', bodyParser.json(), (req, res) => {
-    basket.push([req.body, req.hostname])
-    res.json({
-      id: 111,
-      name: 'gandalf'
-    })
+  app.post('/login', express.json(), (req, res) => {
+    g.sharedBasket.push([req.body, req.hostname])
+    g.error 
+      ? res.status(400).send('user not found') 
+      : res.json(g.mockuser)
   })
 
   return app.listen(port)

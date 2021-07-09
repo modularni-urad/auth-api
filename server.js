@@ -1,12 +1,11 @@
 import express from 'express'
 import morgan from 'morgan'
-import bodyParser from 'body-parser'
 import _ from 'underscore'
 import initErrorHandlers from 'modularni-urad-utils/error_handlers'
 import routes from './routes.js'
 import { setSessionCookie, destroySessionCookie } from './session.js'
 
-const JSONBodyParser = bodyParser.json()
+const JSONBodyParser = express.json()
 
 export function init (host, port) {
   const app = express()

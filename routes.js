@@ -13,10 +13,17 @@ async function login (body, orgid, domain) {
   const reqParams = { headers: { 'Host': domain } }
   const userSvcAddr = USER_SVC_URLS[orgid || '']
   const userSvcUrl = userSvcAddr.match(/^https?:\/\//) ? userSvcAddr : SHARED_USER_SVC
-  const userReq = await axios.post(`${userSvcUrl}/login`, body, reqParams)
-  const groupReqUrl = `${GROUP_SVC_URL}/mship/${userReq.data.id}/groups`
-  const groupReq = await axios.get(groupReqUrl, reqParams)
-  return Object.assign(userReq.data, { groups: groupReq.data })
+  try {
+    const userReq = await axios.post(`${userSvcUrl}/login`, body, reqParams)
+    const groupReqUrl = `${GROUP_SVC_URL}/mship/${userReq.data.id}/groups`
+    const groupReq = await axios.get(groupReqUrl, reqParams)
+    return Object.assign(userReq.data, { groups: groupReq.data })
+  } catch (err) {
+    const c = err.config
+    throw c 
+      ? new Error(`${c.url}(${c.headers.Host}):${err.message}`)
+      : err
+  }
 }
 
 const SMS_SEND_URL = process.env.SMS_SEND_URL

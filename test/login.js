@@ -19,7 +19,16 @@ module.exports = (g) => {
       console.log(res.body)
     })
 
+    it('must not login p1', async () => {
+      g.error = true
+      const u = { username: 'admin', password: 'wrong' }
+      const res = await r.post('/login/mutabor').send(u)
+      res.status.should.equal(400)
+      console.log(res.body)
+    })
+
     it('shall create a new item p1', async () => {
+      g.error = false
       const res = await r.post('/login/mutaborext').send(u1)
       res.status.should.equal(200)
       chai.expect(res).to.have.cookie(process.env.SESSION_COOKIE_NAME, 'beeep')
