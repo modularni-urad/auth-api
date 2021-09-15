@@ -26,6 +26,16 @@ async function login (body, orgid, domain) {
   }
 }
 
+export function userinfo (uid, domain) {
+  const reqParams = { headers: { 'Host': domain } }
+  return axios.get(`${SHARED_USER_SVC}/info/${uid}`, reqParams)
+}
+
+export function search (query, domain) {
+  const reqParams = { headers: { 'Host': domain } }
+  return axios.get(`${SHARED_USER_SVC}/search?query=${query}`, reqParams)
+}
+
 const SMS_SEND_URL = process.env.SMS_SEND_URL
 async function inform (body) {
   const profile = await getProfile(body.UID)
