@@ -4,7 +4,7 @@ import chai from 'chai'
 import userServiceMockInitializer from './utils/mockUserService.js'
 import groupServiceMockInitializer from './utils/groupUserService.js'
 import sessionServiceMockInitializer from './utils/sessionService.js'
-import { init } from '../server'
+import { init } from '../index'
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 
