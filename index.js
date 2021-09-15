@@ -7,7 +7,7 @@ import { setSessionCookie, destroySessionCookie } from './session.js'
 
 const JSONBodyParser = express.json()
 
-export function init (host, port) {
+export default function init (host, port) {
   const app = express()
   app.use(morgan('dev'))
 
