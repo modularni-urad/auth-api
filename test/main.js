@@ -1,56 +1,22 @@
 /* global describe before after */
 // const fs = require('fs')
 import chai from 'chai'
-import userServiceMockInitializer from './utils/mockUserService.js'
-import groupServiceMockInitializer from './utils/groupUserService.js'
-import sessionServiceMockInitializer from './utils/sessionService.js'
-import { init } from '../index'
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 
-const port = process.env.PORT || 3333
-const g = {
-  baseurl: `http://localhost:${port}`,
-  mockuser: { id: 117, login: 'admin' },
-  error: false,
-  usergroups: [],
-  sharedBasket: []
-}
-const mocks = {
-  auth: {
-    required: (req, res, next) => { return next() },
-    requireMembership: (gid) => (req, res, next) => {
-      return g.usergroups.indexOf(gid) >= 0 ? next() : next(403)
-    },
-    getUID: (req) => g.UID
-  },
-  ttn: { data: () => new Promise(resolve => resolve(g.ttnClient)) }
-}
+const g = {}
+require('./env/init')(g)
 
 describe('app', () => {
-  before(done => {
-    const app = init(mocks)
-    g.server = app.listen(port, '127.0.0.1', (err) => {
-      if (err) return done(err)
-      setTimeout(done, 1500)
-    })
-    g.usermock = userServiceMockInitializer(4444, g)
-    g.usermockShared = userServiceMockInitializer(4446, g)
-    g.groupmock = groupServiceMockInitializer(4445)
-    g.sessionServiceMock = sessionServiceMockInitializer(5000)
+  before(() => {
+    const InitModule = require('../index')
+    return g.InitApp(InitModule.default)
   })
-  after(done => {
-    g.server.close(err => {
-      return err ? done(err) : done()
-    })
-    g.usermock.close()
-    g.groupmock.close()
-  })
+  after(g.close)
 
   describe('API', () => {
-    //
     const submodules = [
-      './login'
+      './login_t'
     ]
     submodules.map((i) => {
       const subMod = require(i)
