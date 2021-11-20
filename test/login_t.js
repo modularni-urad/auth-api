@@ -28,6 +28,12 @@ module.exports = (g) => {
       console.log(res.body)
     })
 
+    it('shall login p1 and get token in header', async () => {
+      const res = await r.post('/login/mutabor?token=1').send(u1)
+      res.status.should.equal(200)
+      res.header.token.should.be.ok
+    })
+
     // it('shall create a new item p1', async () => {
     //   g.error = false
     //   const res = await r.post('/login/mutaborext').send(u1)

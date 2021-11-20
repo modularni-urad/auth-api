@@ -43,3 +43,9 @@ export async function setSessionCookie(user, res) {
 export function destroySessionCookie (res) {
   res.clearCookie(COOKIE_NAME)
 }
+
+export async function setTokenHeader (user, res) {
+  const tokenReq = await axios.post(`${SESSION_SVC}/sign`, user)
+  const token = tokenReq.data.token
+  res.set('token', token)
+}

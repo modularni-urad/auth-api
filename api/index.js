@@ -1,6 +1,6 @@
 import _ from 'underscore'
 import MW from './middleware.js'
-import { setSessionCookie, destroySessionCookie } from './session.js'
+import { setSessionCookie, destroySessionCookie, setTokenHeader } from './session.js'
 
 export default function init (ctx) {
   const { express } = ctx
@@ -9,7 +9,9 @@ export default function init (ctx) {
 
   api.post('/login/:source', JSONBodyParser, (req, res, next) => {
     MW.login(req.body, req.params.source, req.orgconfig, req.orgdomain).then(user => {
-      return setSessionCookie(user, res).then(() => res.json(user))
+      return (req.query.token
+        ? setTokenHeader(user, res)
+        : setSessionCookie(user, res)).then(() => res.json(user))
     }).catch(next)
   })
 
