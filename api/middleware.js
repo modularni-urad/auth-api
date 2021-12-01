@@ -17,7 +17,7 @@ export default (ctx) => {
 
   async function fillGroups (user, tenantid) {
     const TENANT_GROUP_SVC_URL = GROUP_SVC_URL.replace('{{TENANTID}}', tenantid)
-    const groupReqUrl = `${TENANT_GROUP_SVC_URL}/mship/${user.id}/groups`
+    const groupReqUrl = `${TENANT_GROUP_SVC_URL}/${user.id}/groups`
     const groupReq = await axios.get(groupReqUrl)
     return Object.assign(user, { groups: groupReq.data })
   }
