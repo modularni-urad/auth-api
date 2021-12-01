@@ -1,9 +1,0 @@
-domains:
-  - api.domain1.cz
-
-cors:
-  - api.domain1.cz
-
-users:
-  mutabor: null
-  external: 'http://localhost:4000'

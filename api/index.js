@@ -1,23 +1,23 @@
-import _ from 'underscore'
-import MW from './middleware.js'
-import { setSessionCookie, destroySessionCookie, setTokenHeader } from './session.js'
+import MWarez from './middleware.js'
+import Session from './session.js'
 
 export default function init (ctx) {
-  const { express } = ctx
-  const JSONBodyParser = express.json()
+  const { express, bodyParser } = ctx
   const api = express()
+  const session = Session(ctx)
+  const MW = MWarez(ctx)
 
-  api.post('/login/:source', JSONBodyParser, (req, res, next) => {
-    MW.login(req.body, req.params.source, req.orgconfig, req.orgdomain).then(user => {
+  api.post('/login/:source', bodyParser, (req, res, next) => {
+    MW.login(req.body, req.params.source, req.tenantid, req.tenantcfg).then(user => {
       return (req.query.token
-        ? setTokenHeader(user, res)
-        : setSessionCookie(user, res)).then(() => res.json(user))
+        ? session.setTokenHeader(user, res)
+        : session.setSessionCookie(user, res)).then(() => res.json(user))
     }).catch(next)
   })
 
   api.get('/info/:uid', (req, res, next) => {
     MW.userinfo(req.body, req.params.orgid, domain).then(user => {
-      return setSessionCookie(user, res).then(() => res.json(user))
+      return session.setSessionCookie(user, res).then(() => res.json(user))
     }).catch(next)
   })
 
@@ -33,7 +33,7 @@ export default function init (ctx) {
   // })
 
   function logout (req, res, next) {
-    destroySessionCookie(res)
+    session.destroySessionCookie(res)
     res.send('ok')
   }
   api.get('/logout', logout)

@@ -1,4 +1,3 @@
-import axios from 'axios'
 // import session from 'express-session'
 // function createRedisStore () {
 //   const redis = require('redis')
@@ -26,26 +25,30 @@ import axios from 'axios'
 // process.env.SESSION_COOKIE_NAME &&
 //   Object.assign(opts, { name: process.env.SESSION_COOKIE_NAME })
 
-// export default session(opts)
-const SESSION_SVC = process.env.SESSION_SERVICE || 'http://session-svc'
-const COOKIE_NAME = process.env.SESSION_COOKIE_NAME || 'Bearer'
+export default (ctx) => {
+  const axios = ctx.require('axios')
+  const SESSION_SVC = process.env.SESSION_SERVICE || 'http://session-svc'
+  const COOKIE_NAME = process.env.SESSION_COOKIE_NAME || 'Bearer'
 
-export async function setSessionCookie(user, res) {
-  const tokenReq = await axios.post(`${SESSION_SVC}/sign`, user)
-  const token = tokenReq.data.token
-  res.cookie(COOKIE_NAME, token, {
-    secure: process.env.NODE_ENV === 'production',
-    httpOnly: process.env.NODE_ENV === 'production',
-    maxAge: 12 * 60 * 60 * 1000 // 12h
-  })
-}
+  async function setSessionCookie(user, res) {
+    const tokenReq = await axios.post(`${SESSION_SVC}/sign`, user)
+    const token = tokenReq.data.token
+    res.cookie(COOKIE_NAME, token, {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: process.env.NODE_ENV === 'production',
+      maxAge: 12 * 60 * 60 * 1000 // 12h
+    })
+  }
 
-export function destroySessionCookie (res) {
-  res.clearCookie(COOKIE_NAME)
-}
+  function destroySessionCookie (res) {
+    res.clearCookie(COOKIE_NAME)
+  }
 
-export async function setTokenHeader (user, res) {
-  const tokenReq = await axios.post(`${SESSION_SVC}/sign`, user)
-  const token = tokenReq.data.token
-  res.set('token', token)
+  async function setTokenHeader (user, res) {
+    const tokenReq = await axios.post(`${SESSION_SVC}/sign`, user)
+    const token = tokenReq.data.token
+    res.set('token', token)
+  }
+
+  return { setSessionCookie, destroySessionCookie, setTokenHeader }
 }
