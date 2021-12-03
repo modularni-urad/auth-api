@@ -2,7 +2,7 @@ import MWarez from './middleware.js'
 import Session from './session.js'
 
 export default function init (ctx) {
-  const { express, bodyParser } = ctx
+  const { express, bodyParser, ErrorClass } = ctx
   const api = express()
   const session = Session(ctx)
   const MW = MWarez(ctx)
@@ -10,21 +10,20 @@ export default function init (ctx) {
   api.post('/login/:source', bodyParser, (req, res, next) => {
     MW.login(req.body, req.params.source, req.tenantid, req.tenantcfg).then(user => {
       return (req.query.token
-        ? session.setTokenHeader(user, res)
+        ? session.setToken(user, res)
         : session.setSessionCookie(user, res)).then(() => res.json(user))
     }).catch(next)
   })
 
   api.get('/info/:uid', (req, res, next) => {
-    MW.userinfo(req.body, req.params.orgid, domain).then(user => {
-      return session.setSessionCookie(user, res).then(() => res.json(user))
+    MW.userinfo(req.body, req.tenantid, req.tenantcfg).then(user => {
+      res.json(user)
     }).catch(next)
   })
 
-  api.get('/search/', (req, res, next) => {
-    if (!req.params.query) return next('wrong query')
-    MW.search(req.params.query, domain).then(found => {
-      res.json(user)
+  api.get('/search', (req, res, next) => {
+    MW.search(req.params.query, req.tenantid, req.tenantcfg).then(found => {
+      res.json(found)
     }).catch(next)
   })
 

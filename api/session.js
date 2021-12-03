@@ -44,11 +44,10 @@ export default (ctx) => {
     res.clearCookie(COOKIE_NAME)
   }
 
-  async function setTokenHeader (user, res) {
+  async function setToken (user, res) {
     const tokenReq = await axios.post(`${SESSION_SVC}/sign`, user)
-    const token = tokenReq.data.token
-    res.set('token', token)
+    user.token = tokenReq.data.token
   }
 
-  return { setSessionCookie, destroySessionCookie, setTokenHeader }
+  return { setSessionCookie, destroySessionCookie, setToken }
 }

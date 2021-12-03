@@ -37,14 +37,17 @@ export default (ctx) => {
     }
   }
 
-  function userinfo (uid, tenantid) {
-    const reqParams = { headers: { 'Host': domain } }
-    return axios.get(`${SHARED_USER_SVC}/info/${uid}`, reqParams)
+  function userinfo (uid, tenantid, config) {
+    const userServiceURL = SHARED_USER_SVC.replace('{{TENANTID}}', tenantid)
+    return axios.get(`${userServiceURL}/info/${uid}`)
+      .catch(err => { throw new ErrorClass(400, err) })
   }
 
-  function search (query, tenantid) {
-    const reqParams = { headers: { 'Host': domain } }
-    return axios.get(`${SHARED_USER_SVC}/search?query=${query}`, reqParams)
+  function search (query, tenantid, config) {
+    if (!query) throw new ErrorClass(400, 'wrong query')
+    const userServiceURL = SHARED_USER_SVC.replace('{{TENANTID}}', tenantid)
+    return axios.get(`${userServiceURL}/search?query=${query}`)
+      .catch(err => { throw new ErrorClass(400, err) })
   }
 
   const SMS_SEND_URL = process.env.SMS_SEND_URL

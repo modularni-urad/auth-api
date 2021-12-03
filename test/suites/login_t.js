@@ -27,7 +27,7 @@ module.exports = (g) => {
     it('shall login p1 and get token in header', async () => {
       const res = await r.post('/login/mutabor?token=1').send(u1)
       res.status.should.equal(200)
-      res.header.token.should.be.ok
+      res.body.token.should.be.ok
     })
 
     // it('shall create a new item p1', async () => {
