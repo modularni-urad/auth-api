@@ -16,13 +16,13 @@ export default function init (ctx) {
   })
 
   api.get('/info/:uid', (req, res, next) => {
-    MW.userinfo(req.body, req.tenantid, req.tenantcfg).then(user => {
+    MW.userinfo(req.params.uid, req.tenantid, req.tenantcfg).then(user => {
       res.json(user)
     }).catch(next)
   })
 
   api.get('/search', (req, res, next) => {
-    MW.search(req.params.query, req.tenantid, req.tenantcfg).then(found => {
+    MW.search(req.query.q, req.tenantid, req.tenantcfg).then(found => {
       res.json(found)
     }).catch(next)
   })

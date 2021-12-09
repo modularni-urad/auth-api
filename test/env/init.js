@@ -5,7 +5,6 @@ import userServiceMockInitializer from '../utils/mockUserService.js'
 import groupServiceMockInitializer from '../utils/groupUserService.js'
 const SessionServiceMock = require('modularni-urad-utils/test/mocks/sessionService')
 
-process.env.DATABASE_URL = ':memory:'
 process.env.NODE_ENV = 'test'
 process.env.SESSION_SERVICE_PORT = 24000
 process.env.SESSION_SERVICE = `http://localhost:${process.env.SESSION_SERVICE_PORT}`
@@ -24,7 +23,7 @@ module.exports = function (g) {
   })
   process.env.GROUP_SVC_URL = 'http://localhost:4445/{{TENANTID}}'
   process.env.SESSION_SECRET = 'secret'
-  process.env.SHARED_USER_SVC = 'http://localhost:4446/{{TENANTID}}/login'
+  process.env.SHARED_USER_SVC = 'http://localhost:4446/{{TENANTID}}'
   process.env.SESSION_COOKIE_NAME = 'Bearer'
 
   g.sessionSrvcMock = SessionServiceMock.default(process.env.SESSION_SERVICE_PORT, g)

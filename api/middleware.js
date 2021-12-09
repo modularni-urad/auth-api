@@ -11,7 +11,7 @@ export default (ctx) => {
       throw new ErrorClass(401, 'wrong credentials')
     }
     const userServiceURL = SHARED_USER_SVC.replace('{{TENANTID}}', tenantid)
-    const r = await axios.post(userServiceURL, body)
+    const r = await axios.post(`${userServiceURL}/login`, body)
     return r.data
   }
 
@@ -40,6 +40,7 @@ export default (ctx) => {
   function userinfo (uid, tenantid, config) {
     const userServiceURL = SHARED_USER_SVC.replace('{{TENANTID}}', tenantid)
     return axios.get(`${userServiceURL}/info/${uid}`)
+      .then(res => res.data)
       .catch(err => { throw new ErrorClass(400, err) })
   }
 
@@ -47,6 +48,7 @@ export default (ctx) => {
     if (!query) throw new ErrorClass(400, 'wrong query')
     const userServiceURL = SHARED_USER_SVC.replace('{{TENANTID}}', tenantid)
     return axios.get(`${userServiceURL}/search?query=${query}`)
+      .then(res => res.data)
       .catch(err => { throw new ErrorClass(400, err) })
   }
 
@@ -58,5 +60,5 @@ export default (ctx) => {
     return res.data
   }
 
-  return { login, inform }
+  return { login, userinfo, search }
 }

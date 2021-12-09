@@ -17,7 +17,8 @@ describe('app', () => {
 
   describe('API', () => {
     const submodules = [
-      './suites/login_t'
+      './suites/login_t',
+      './suites/searching_t'
     ]
     submodules.map((i) => {
       const subMod = require(i)
