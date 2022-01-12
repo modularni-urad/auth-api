@@ -1,3 +1,4 @@
+import axios from 'axios'
 // import session from 'express-session'
 // function createRedisStore () {
 //   const redis = require('redis')
@@ -26,7 +27,6 @@
 //   Object.assign(opts, { name: process.env.SESSION_COOKIE_NAME })
 
 export default (ctx) => {
-  const axios = ctx.require('axios')
   const SESSION_SVC = process.env.SESSION_SERVICE || 'http://session-svc'
   const COOKIE_NAME = process.env.SESSION_COOKIE_NAME || 'Bearer'
 

@@ -1,10 +1,10 @@
+import axios from 'axios'
+import _ from 'underscore'
 
 export default (ctx) => {
   const { ErrorClass } = ctx
   const GROUP_SVC_URL = process.env.GROUP_SVC_URL || 'http://group_svc/{{TENANTID}}'
   const SHARED_USER_SVC = process.env.SHARED_USER_SVC || 'http://internal_svc/{{TENANTID}}/login'
-  const axios = ctx.require('axios')
-  const _ = ctx.require('underscore')
 
   async function internalUsersLogin(body, tenantid) {
     if (!body.password || !body.username) { 

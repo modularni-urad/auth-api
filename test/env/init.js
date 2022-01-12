@@ -37,14 +37,7 @@ module.exports = function (g) {
     const appContext = { 
       express, auth, 
       bodyParser: express.json(),
-      ErrorClass: APIError,
-      require: function(name) {
-        try {
-          return require(name)
-        } catch (err) {
-          console.error(err)
-        }    
-      }
+      ErrorClass: APIError
     }
     const tenantConfig = {
       users: {
@@ -57,7 +50,7 @@ module.exports = function (g) {
       req.tenantcfg = tenantConfig
       next()
     }
-    const mwarez = ApiModule.init(appContext)
+    const mwarez = ApiModule(appContext)
     app.use(setupTenant, mwarez)
 
     initErrorHandlers(app)

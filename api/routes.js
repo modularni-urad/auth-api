@@ -27,7 +27,7 @@ export default function init (ctx) {
     }).catch(next)
   })
 
-  app.get('/profile', auth.session, auth.required, function (req, res) {
+  api.get('/profile', auth.session, auth.required, function (req, res) {
     res.json(req.user)
   })
 
