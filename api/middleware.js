@@ -26,7 +26,7 @@ export default (ctx) => {
     const userSvcAddr = _.get(config, ['users', source])
     try {
       const user = userSvcAddr
-        ? await axios.post(userSvcAddr, body)
+        ? await axios.post(userSvcAddr, body) // redirect to saml
         : await internalUsersLogin(body, tenantid)
       return fillGroups(user, tenantid)
     } catch (err) {

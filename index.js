@@ -1,7 +1,3 @@
-import initApi from './api/index'
+import initApi from './api/routes'
 
-export async function migrateDB (knex, schemas = null) {
-  // nothing to migrate
-}
-
-export const init = initApi
+export default initApi

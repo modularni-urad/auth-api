@@ -2,7 +2,7 @@
   "name": "modularni-urad-auth-api",
   "version": "1.0.0",
   "description": "Auth API for modularni-urad",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node -r esm server.js",
     "startdbg": "node -r esm --inspect-brk server.js",

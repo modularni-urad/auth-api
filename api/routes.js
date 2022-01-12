@@ -2,7 +2,7 @@ import MWarez from './middleware.js'
 import Session from './session.js'
 
 export default function init (ctx) {
-  const { express, bodyParser, ErrorClass } = ctx
+  const { express, bodyParser, auth } = ctx
   const api = express()
   const session = Session(ctx)
   const MW = MWarez(ctx)
@@ -25,6 +25,10 @@ export default function init (ctx) {
     MW.search(req.query.q, req.tenantid, req.tenantcfg).then(found => {
       res.json(found)
     }).catch(next)
+  })
+
+  app.get('/profile', auth.session, auth.required, function (req, res) {
+    res.json(req.user)
   })
 
   // api.post('/inform', JSONBodyParser, (req, res, next) => {
